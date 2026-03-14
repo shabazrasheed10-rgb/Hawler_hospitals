@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ناونیشانی نەخۆشخانەکانی سەنتەری شاری هەولێر</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700;900&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="manifest" href="manifest.json">
+  <style>
+    :root {
+      --green:   #1a6b3c;
+      --gold:    #c8992a;
+      --cream:   #f5f0e8;
+      --dark:    #0f2d1e;
+      --card-bg: #ffffff;
+      --shadow:  rgba(26,107,60,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(26,107,60,0.07) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(200,153,42,0.07) 0%, transparent 50%);
+      font-family: 'Noto Kufi Arabic', 'Cairo', sans-serif;
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+  background: #2f5e46;
+  border: 1px solid #2f5e46;
+
+  margin: 18px auto;          /* space from top and sides */
+  width: calc(100% - 32px);   /* prevents touching left/right */
+  max-width: 1200px;           /* keeps it centered like island */
+
+  padding: 2.2rem 1.5rem;
+  text-align: center;
+
+  border-radius: 18px;        /* island shape */
+  position: relative;
+  overflow: hidden;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+    
+    .header-inner {
+      position: relative;
+      display: inline-block;
+      }
+      
+  
+    .header-inner::before { right: 1rem; }
+    .header-inner::after  { left:  1rem; }
+    header h1 {
+      font-size: clamp(1rem, 3vw, 2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.5;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    .subtitle {
+      color: #fff;
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+
+    /* ── GRID ── */
+    main {
+      flex: 1;
+      max-width: 1300px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.6rem;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 18px var(--shadow);
+      border: 1.5px solid rgba(26,107,60,0.15);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 14px 36px rgba(26,107,60,0.22);
+      border-color: var(--gold);
+    }
+
+    .card-img-wrap {
+      width: 100%;
+      height: 160px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(135deg, #1a6b3c18, #c8992a18);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-number {
+      position: absolute;
+      top: 10px; right: 10px;
+      background: var(--dark);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 900;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 1.5px solid var(--gold);
+    }
+    .card-emoji {
+      font-size: 4rem;
+      line-height: 1;
+      transition: transform 0.3s ease;
+      user-select: none;
+    }
+    .card:hover .card-emoji { transform: scale(1.15); }
+
+    .map-badge {
+      position: absolute;
+      bottom: 10px; left: 10px;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      display: flex; align-items: center; gap: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    .card-body {
+      padding: 1rem 1.1rem 1.1rem;
+      flex: 1;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .card-name {
+      font-size: 0.93rem;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    .open-map-btn {
+      margin-top: auto;
+      font-size: 0.75rem;
+      color: var(--green);
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+      background: rgba(26,107,60,0.08);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(26,107,60,0.15);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .card:hover .open-map-btn {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #2f5e46;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 1.3rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.03em;
+      font-family: 'Cairo', sans-serif;
+    }
+    footer span { color: #fff; font-weight: 700; }
+
+    @media (max-width: 540px) {
+      .header-inner { padding: 1rem 2rem; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .card-img-wrap { height: 130px; }
+      .card-emoji { font-size: 3rem; }
+    }
+    @media (max-width: 360px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1> ناونیشانی نەخۆشخانەکانی سەنتەری شاری هەولێر 📍 </h1>
+    <div class="subtitle">Hawler City Center Hospitals Directory</div>
+  </div>
+</header>
+
+<main>
+  <div class="grid" id="hospitalGrid"></div>
+</main>
+
+<footer>
+  developed by <span>Shabaz Rasheed</span>
+</footer>
+
+<script>
+  const hospitals = [
+    {
+      name: "نەخۆشخانەی ڕاپەرینی فێرکاری بۆ منداڵان",
+      emoji: "👶",
+      url: "https://maps.app.goo.gl/QDsbS9njmpUr73hm6"
+    },
+    {
+      name: "نەخۆشخانەی فریاکەوتنی ڕۆژهەڵات (ڕزگاری)",
+      emoji: "🚑",
+      url: "https://maps.app.goo.gl/EMSgtDPq8P1qvkYNA"
+    },
+    {
+      name: "نەخۆشخانەی فریاکەوتنی ڕۆژئاوا",
+      emoji: "🏥",
+      url: "https://maps.app.goo.gl/EA4zUDbJnaNHE3Gh7"
+    },
+    {
+      name: "نەخۆشخانەی ئیمێرجنسی ٦٠ مەتری",
+      emoji: "🚨",
+      url: "https://maps.app.goo.gl/BVufYQssnWpvXorY7"
+    },
+    {
+      name: "نەخۆشخانەی ئافرەتان و لەدایک بوون",
+      emoji: "🤰",
+      url: "https://maps.app.goo.gl/ZW6ALJBTyhUDqvZ56"
+    },
+    {
+      name: "نەخۆشخانەی نانەکەلی فێرکاری (سرطان)",
+      emoji: "🎗️",
+      url: "https://maps.app.goo.gl/Pf6eFVg6Hgjpx49D9"
+    },
+    {
+      name: "نەخۆشخانەی فریاکەوتنی ناوەند (جمهووری)",
+      emoji: "🏨",
+      url: "https://maps.app.goo.gl/WWUNMAVfwSLBUbDZ7"
+    },
+    {
+      name: "نەخۆشخانەی پسپۆری نەشتەرگەری - سەنتەری دڵ",
+      emoji: "🫀",
+      url: "https://maps.app.goo.gl/nhX5UsfKtLcnuhqq5"
+    },
+    {
+      name: "نەخۆشخانەی فێرکاری خانزاد (ددان)",
+      emoji: "🦷",
+      url: "https://maps.app.goo.gl/YL1kRdrWr3xPCWxH7"
+    },
+    {
+      name: "پزیشکی دادوەری هەولێر (طب عدل)",
+      emoji: "⚖️",
+      url: "https://maps.app.goo.gl/MXM19o6VXwARP3AN6"
+    },
+    {
+      name: "بانکی خوێن بەخشین",
+      emoji: "🩸",
+      url: "https://maps.app.goo.gl/P7eff2TDk5xDhKoC8"
+    },
+    {
+      name: "سەنتەری تەلاسیمیای هەولێر",
+      emoji: "💉",
+      url: "https://maps.app.goo.gl/qfbWxZeDw2nFqeXdA"
+    },
+    {
+      name: "سەنتەری پێست هەولێر (نەخۆشخانەی پێست)",
+      emoji: "🩺",
+      url: "https://maps.app.goo.gl/thU8cdHZ5r1tvStq9"
+    },
+    {
+      name: "نەخۆشخانەی (چاو) ی شارەوانی",
+      emoji: "👁️",
+      url: "https://maps.app.goo.gl/UAVNVuPY4Rz7kJfV7"
+    },
+    {
+      name: "سەنتەری مەلا فەندی - پزیشکی خێزانی",
+      emoji: "🏡",
+      url: "https://maps.app.goo.gl/V89hobK5CHDzQF1B7"
+    },
+    {
+      name: "سەنتەری سەروەران بۆ پزیشکی خێزانی",
+      emoji: "🌿",
+      url: "https://maps.app.goo.gl/BWahUjoBKj4pBCSe9"
+    },
+    {
+      name: "نەخۆشخانەی محمد باجلان",
+      emoji: "🏥",
+      url: "https://maps.app.goo.gl/RLxUsqkKTyN3P73dA"
+    }
+  ];
+
+  const grid = document.getElementById('hospitalGrid');
+
+  hospitals.forEach((h, i) => {
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = h.url;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+
+    card.innerHTML = `
+      <div class="card-img-wrap">
+        <span class="card-emoji">${h.emoji}</span>
+        <div class="card-number">${i + 1}</div>
+        <div class="map-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          گووگڵ مەپ
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${h.name}</div>
+        <div class="open-map-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          </svg>
+          کلیک بکە بۆ بینینی شوێن
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+</script>
+</body>
+</html>
