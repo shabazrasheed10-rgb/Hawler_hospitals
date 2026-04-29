@@ -32,31 +32,24 @@
 
     /* ── HEADER ── */
     header {
-  background: #2f5e46;
-  border: 1px solid #2f5e46;
+      background: #2f5e46;
+      border: 1px solid #2f5e46;
+      margin: 18px auto;
+      width: calc(100% - 32px);
+      max-width: 1200px;
+      padding: 2.2rem 1.5rem;
+      text-align: center;
+      border-radius: 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    }
 
-  margin: 18px auto;          /* space from top and sides */
-  width: calc(100% - 32px);   /* prevents touching left/right */
-  max-width: 1200px;           /* keeps it centered like island */
-
-  padding: 2.2rem 1.5rem;
-  text-align: center;
-
-  border-radius: 18px;        /* island shape */
-  position: relative;
-  overflow: hidden;
-
-  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-}
-    
     .header-inner {
       position: relative;
       display: inline-block;
-      }
-      
-  
-    .header-inner::before { right: 1rem; }
-    .header-inner::after  { left:  1rem; }
+    }
+
     header h1 {
       font-size: clamp(1rem, 3vw, 2rem);
       font-weight: 900;
@@ -72,11 +65,78 @@
       font-weight: 600;
     }
 
+    /* ── SEARCH BAR ── */
+    .search-wrap {
+      max-width: 1200px;
+      margin: 1.6rem auto 0;
+      padding: 0 16px;
+      width: calc(100% - 32px);
+    }
+
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.85rem 3.2rem 0.85rem 1.2rem;
+      font-family: 'Noto Kufi Arabic', 'Cairo', sans-serif;
+      font-size: 0.95rem;
+      color: var(--dark);
+      background: #fff;
+      border: 1px solid rgba(26,107,60,0.25);
+      border-radius: 10px;
+      outline: none;
+      box-shadow: 0 4px 16px rgba(26,107,60,0.10);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      direction: rtl;
+    }
+
+    .search-box input::placeholder {
+      color: #aab5ae;
+      font-size: 0.9rem;
+    }
+
+    .search-box input:focus {
+      border-color: var(--green);
+      box-shadow: 0 4px 20px rgba(26,107,60,0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #7aab8e;
+      pointer-events: none;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-box input:focus ~ .search-icon {
+      color: var(--green);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 3rem 1rem;
+      font-size: 1rem;
+      color: #7aab8e;
+      font-weight: 600;
+      display: none;
+      grid-column: 1 / -1;
+    }
+
+    .no-results .emoji { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+
     /* ── GRID ── */
     main {
       flex: 1;
       max-width: 1300px;
-      margin: 2.5rem auto;
+      margin: 1.8rem auto 2.5rem;
       padding: 0 1.5rem;
       width: 100%;
     }
@@ -104,6 +164,9 @@
       transform: translateY(-6px) scale(1.01);
       box-shadow: 0 14px 36px rgba(26,107,60,0.22);
       border-color: var(--gold);
+    }
+    .card.hidden {
+      display: none;
     }
 
     .card-img-wrap {
@@ -208,8 +271,31 @@
   </div>
 </header>
 
+<!-- SEARCH BAR -->
+<div class="search-wrap">
+  <div class="search-box">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="گەڕان بۆ نەخۆشخانە..."
+      autocomplete="off"
+    />
+    <span class="search-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </span>
+  </div>
+</div>
+
 <main>
-  <div class="grid" id="hospitalGrid"></div>
+  <div class="grid" id="hospitalGrid">
+    <div class="no-results" id="noResults">
+      <span class="emoji">🔍</span>
+    هیچ  نەخۆشخانەیەک نەدۆزرایەوە
+    </div>
+  </div>
 </main>
 
 <footer>
@@ -218,94 +304,29 @@
 
 <script>
   const hospitals = [
-    {
-      name: "نەخۆشخانەی ڕاپەرینی فێرکاری بۆ منداڵان",
-      emoji: "👶",
-      url: "https://maps.app.goo.gl/QDsbS9njmpUr73hm6"
-    },
-    {
-      name: "نەخۆشخانەی فریاکەوتنی ڕۆژهەڵات (ڕزگاری)",
-      emoji: "🚑",
-      url: "https://maps.app.goo.gl/EMSgtDPq8P1qvkYNA"
-    },
-    {
-      name: "نەخۆشخانەی فریاکەوتنی ڕۆژئاوا",
-      emoji: "🏥",
-      url: "https://maps.app.goo.gl/EA4zUDbJnaNHE3Gh7"
-    },
-    {
-      name: "نەخۆشخانەی ئیمێرجنسی ٦٠ مەتری",
-      emoji: "🚨",
-      url: "https://maps.app.goo.gl/BVufYQssnWpvXorY7"
-    },
-    {
-      name: "نەخۆشخانەی ئافرەتان و لەدایک بوون",
-      emoji: "🤰",
-      url: "https://maps.app.goo.gl/ZW6ALJBTyhUDqvZ56"
-    },
-    {
-      name: "نەخۆشخانەی نانەکەلی فێرکاری (شێرپەنجە)",
-      emoji: "🎗️",
-      url: "https://maps.app.goo.gl/Pf6eFVg6Hgjpx49D9"
-    },
-    {
-      name: "نەخۆشخانەی فریاکەوتنی ناوەند (جمهووری)",
-      emoji: "🏨",
-      url: "https://maps.app.goo.gl/WWUNMAVfwSLBUbDZ7"
-    },
-    {
-      name: "نەخۆشخانەی پسپۆری نەشتەرگەری - سەنتەری دڵ",
-      emoji: "🫀",
-      url: "https://maps.app.goo.gl/nhX5UsfKtLcnuhqq5"
-    },
-    {
-      name: "نەخۆشخانەی فێرکاری خانزاد (ددان)",
-      emoji: "🦷",
-      url: "https://maps.app.goo.gl/YL1kRdrWr3xPCWxH7"
-    },
-    {
-      name: "پزیشکی دادوەری هەولێر (طب عدل)",
-      emoji: "⚖️",
-      url: "https://maps.app.goo.gl/MXM19o6VXwARP3AN6"
-    },
-    {
-      name: "بانکی خوێن بەخشین",
-      emoji: "🩸",
-      url: "https://maps.app.goo.gl/P7eff2TDk5xDhKoC8"
-    },
-    {
-      name: "سەنتەری تەلاسیمیای هەولێر",
-      emoji: "💉",
-      url: "https://maps.app.goo.gl/qfbWxZeDw2nFqeXdA"
-    },
-    {
-      name: "سەنتەری پێست هەولێر (نەخۆشخانەی پێست)",
-      emoji: "🩺",
-      url: "https://maps.app.goo.gl/thU8cdHZ5r1tvStq9"
-    },
-    {
-      name: "نەخۆشخانەی (چاو) ی شارەوانی",
-      emoji: "👁️",
-      url: "https://maps.app.goo.gl/UAVNVuPY4Rz7kJfV7"
-    },
-    {
-      name: "سەنتەری مەلا فەندی - پزیشکی خێزانی",
-      emoji: "🏡",
-      url: "https://maps.app.goo.gl/V89hobK5CHDzQF1B7"
-    },
-    {
-      name: "سەنتەری سەروەران بۆ پزیشکی خێزانی",
-      emoji: "🌿",
-      url: "https://maps.app.goo.gl/BWahUjoBKj4pBCSe9"
-    },
-    {
-      name: "نەخۆشخانەی محمد باجەلان",
-      emoji: "🏥",
-      url: "https://maps.app.goo.gl/RLxUsqkKTyN3P73dA"
-    }
+    { name: "نەخۆشخانەی ڕاپەرینی فێرکاری بۆ منداڵان", emoji: "👶", url: "https://maps.app.goo.gl/QDsbS9njmpUr73hm6" },
+    { name: "نەخۆشخانەی فریاکەوتنی ڕۆژهەڵات (ڕزگاری)", emoji: "🚑", url: "https://maps.app.goo.gl/EMSgtDPq8P1qvkYNA" },
+    { name: "نەخۆشخانەی فریاکەوتنی ڕۆژئاوا", emoji: "🏥", url: "https://maps.app.goo.gl/EA4zUDbJnaNHE3Gh7" },
+    { name: "نەخۆشخانەی ئیمێرجنسی ٦٠ مەتری", emoji: "🚨", url: "https://maps.app.goo.gl/BVufYQssnWpvXorY7" },
+    { name: "نەخۆشخانەی ئافرەتان و لەدایک بوون", emoji: "🤰", url: "https://maps.app.goo.gl/ZW6ALJBTyhUDqvZ56" },
+    { name: "نەخۆشخانەی نانەکەلی فێرکاری (شێرپەنجە)", emoji: "🎗️", url: "https://maps.app.goo.gl/Pf6eFVg6Hgjpx49D9" },
+    { name: "نەخۆشخانەی فریاکەوتنی ناوەند (جمهووری)", emoji: "🏨", url: "https://maps.app.goo.gl/WWUNMAVfwSLBUbDZ7" },
+    { name: "نەخۆشخانەی پسپۆری نەشتەرگەری - سەنتەری دڵ", emoji: "🫀", url: "https://maps.app.goo.gl/nhX5UsfKtLcnuhqq5" },
+    { name: "نەخۆشخانەی فێرکاری خانزاد (ددان)", emoji: "🦷", url: "https://maps.app.goo.gl/YL1kRdrWr3xPCWxH7" },
+    { name: "پزیشکی دادوەری هەولێر (طب عدل)", emoji: "⚖️", url: "https://maps.app.goo.gl/MXM19o6VXwARP3AN6" },
+    { name: "بانکی خوێن بەخشین", emoji: "🩸", url: "https://maps.app.goo.gl/P7eff2TDk5xDhKoC8" },
+    { name: "سەنتەری تەلاسیمیای هەولێر", emoji: "💉", url: "https://maps.app.goo.gl/qfbWxZeDw2nFqeXdA" },
+    { name: "سەنتەری پێست هەولێر (نەخۆشخانەی پێست)", emoji: "🩺", url: "https://maps.app.goo.gl/thU8cdHZ5r1tvStq9" },
+    { name: "نەخۆشخانەی (چاو) ی شارەوانی", emoji: "👁️", url: "https://maps.app.goo.gl/UAVNVuPY4Rz7kJfV7" },
+    { name: "سەنتەری مەلا فەندی - پزیشکی خێزانی", emoji: "🏡", url: "https://maps.app.goo.gl/V89hobK5CHDzQF1B7" },
+    { name: "سەنتەری سەروەران بۆ پزیشکی خێزانی", emoji: "🌿", url: "https://maps.app.goo.gl/BWahUjoBKj4pBCSe9" },
+    { name: "نەخۆشخانەی محمد باجەلان", emoji: "🏥", url: "https://maps.app.goo.gl/RLxUsqkKTyN3P73dA" }
   ];
 
   const grid = document.getElementById('hospitalGrid');
+  const noResults = document.getElementById('noResults');
+  const searchInput = document.getElementById('searchInput');
+  const cardElements = [];
 
   hospitals.forEach((h, i) => {
     const card = document.createElement('a');
@@ -313,7 +334,6 @@
     card.href = h.url;
     card.target = '_blank';
     card.rel = 'noopener noreferrer';
-
     card.innerHTML = `
       <div class="card-img-wrap">
         <span class="card-emoji">${h.emoji}</span>
@@ -335,9 +355,23 @@
         </div>
       </div>
     `;
+    grid.insertBefore(card, noResults);
+    cardElements.push({ el: card, name: h.name });
+  });
 
-    grid.appendChild(card);
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim();
+    let visibleCount = 0;
+
+    cardElements.forEach(({ el, name }) => {
+      const match = query === '' || name.includes(query);
+      el.classList.toggle('hidden', !match);
+      if (match) visibleCount++;
+    });
+
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
   });
 </script>
 </body>
 </html>
+
